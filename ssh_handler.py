@@ -22,11 +22,8 @@ class ssh_login:
             print(f"ssh connection error: {ssh_ex}")
 
         _, stdout, stderr = ssh_client.exec_command(command=self.command)
-        # print(stdout.readline())
-        # print(stderr.readline())
         if stderr.readline() == "":
             aaa = stdout.readline().replace("\n", "")
-            print(type(aaa))
             return (aaa)
         else:
             raise RuntimeError("couldn not get status")

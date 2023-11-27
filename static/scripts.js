@@ -5,14 +5,16 @@ fetch('/cpu_usage')
     const cpuChartsContainer = document.getElementById('cpuChartsContainer');
 
     // 各ホストごとにグラフを生成
-    Object.keys(cpuData).forEach(host_str => {
-      const host = JSON.parse(host_str)
-      alert(host)
+    cpuData.forEach(host_data=> {
+      console.log(host_data)
+      data = JSON.parse(host_data)
+      console.log(data["hostname"])
       const chartContainer = document.createElement('div');
       chartContainer.classList.add('col');
 
       const chartTitle = document.createElement('div');
-      chartTitle.textContent = `${host.hostname}`;
+      console.log(host_data.hostname)
+      chartTitle.textContent = `${host_data.hostname}`;
       chartTitle.textAlign = "center";
       chartContainer.appendChild(chartTitle);
 
