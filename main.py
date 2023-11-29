@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import ssh_handler
 import toml
 
@@ -12,18 +12,19 @@ def index():
 @app.route('/hosts')
 def hosts():
     toml_dict = toml.load(open("config.toml"))
+    print(toml_dict)
     return jsonify(toml_dict["hosts"])
 
-@app.route('/cpu_usage')
+
+@app.route('/cpu_usage', methods=['GET'])
 def cpu_usage():
+    host = request.args.get('host')
     toml_dict = toml.load(open("config.toml"))
-    print(toml_dict["command"])
-    res = []
-    for host in toml_dict["hosts"]:
-        print(host)
-        instance = ssh_handler.ssh_login(host, toml_dict["user"], toml_dict["password"], toml_dict["command"])
-        aaa = instance.run()
-        res.append(aaa[1:-1])
+    print("log!!!!")
+    print(host)
+    instance = ssh_handler.ssh_login(
+        str(host), toml_dict["user"], toml_dict["password"], toml_dict["command"])
+    res = instance.run().replace("'", '"')
     print(res)
     return jsonify(res)
 

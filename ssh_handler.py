@@ -21,12 +21,15 @@ class ssh_login:
         except paramiko.SSHException as ssh_ex:
             print(f"ssh connection error: {ssh_ex}")
 
+        print(self.command)
         _, stdout, stderr = ssh_client.exec_command(command=self.command)
         if stderr.readline() == "":
             aaa = stdout.readline().replace("\n", "")
             return (aaa)
         else:
-            raise RuntimeError("couldn not get status")
+            print("stdout: " + stdout.readline())
+            print("stderr: " + stderr.readline())
+            raise RuntimeError("could not get status")
 
 
 if __name__ == "__main__":
